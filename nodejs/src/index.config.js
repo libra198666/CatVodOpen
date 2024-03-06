@@ -8,6 +8,18 @@ export default {
         url: 'https://cj.ffzyapi.com/api.php/provide/vod/from/ffm3u8/',
         categories: ['国产剧', '香港剧', '韩国剧', '欧美剧', '台湾剧', '日本剧', '海外剧', '泰国剧', '短剧', '动作片', '喜剧片', '爱情片', '科幻片', '恐怖片', '剧情片', '战争片', '动漫片', '大陆综艺', '港台综艺', '日韩综艺', '欧美综艺', '国产动漫', '日韩动漫', '欧美动漫', '港台动漫', '海外动漫', '记录片'],
     },
+    lzm3u8: {
+        url: 'https://cj.lziapi.com/api.php/provide/vod/from/lzm3u8/',
+        categories: ['国产剧', '香港剧', '韩国剧', '欧美剧', '台湾剧', '日本剧', '海外剧', '泰国剧', '短剧', '动作片', '喜剧片', '爱情片', '科幻片', '恐怖片', '剧情片', '战争片', '动漫片', '大陆综艺', '港台综艺', '日韩综艺', '欧美综艺', '国产动漫', '日韩动漫', '欧美动漫', '港台动漫', '海外动漫', '记录片'],
+    },
+	 
+	ali: {
+    token: '97c2294a2bba4d0f9858d4b307caaf73',
+    token280: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0MjhjZTEyMzFmZTI0NWY5YmNiYjBiMDM2YjA2YTNhOSIsImF1ZCI6IjczZTYxMTgzMWE3YzRkODdhYzQ5Yzg0ODFiZjlmMmM0IiwiZXhwIjoxNzE3MjE3NTUxLCJpYXQiOjE3MDk0NDE1NTEsImp0aSI6IjAwNWZmNmI1YTIyMDRiMjk5YzgyOTYxZjFkOTZiNjA5In0.nbxGcgTIV-hm5zoNNAwWqdPzlm1SWEUG8o28uEE9CtAezLhOUcKvurqGjPScpsIOx4GoCMF7OPsdDNJHJVX7TA',
+},
+    wogg: {
+         url: 'https://wogg.xyz',
+},
     alist: [
         {
             name: '🐉神族九帝',
