@@ -11,8 +11,9 @@ import douban from './spider/video/douban.js';
 import wogg from './spider/video/wogg.js';
 import tudou from './spider/video/tudou.js';
 import wobg from './spider/video/wobg.js';
+import nangua from './spider/video/nangua.js';
 
-const spiders = [kunyu77, kkys, tudou, wogg, wobg, ffm3u8, hhm3u8, lzm3u8, douban, push, alist, _13bqg, copymanga];
+const spiders = [kunyu77, kkys, tudou, nangua, wogg, wobg, ffm3u8, hhm3u8, lzm3u8, douban, push, alist, _13bqg, copymanga];
 const spiderPrefix = '/spider';
 
 /**
