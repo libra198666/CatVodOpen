@@ -35,9 +35,6 @@ export default {
     wobg: {
           url: "https://wobge.run.goorm.io"
   },
-    nangua: {
-           url: 'http://ys.changmengyun.com',
-  },
     alist: [
         {
             name: '🐉神族九帝',
