@@ -13,14 +13,16 @@ import tudou from './spider/video/tudou.js';
 import wobg from './spider/video/wobg.js';
 import nangua from './spider/video/nangua.js';
 import ysche from './spider/video/ysche.js';
+
 import wenku from './spider/book/wenku.js';
 import baozimh from './spider/book/baozimh.js';
 import bengou_open from './spider/book/bengou_open.js';
+import laobaigs from './spider/book/laobaigs.js';
 
 
 
 
-const spiders = [kunyu77, kkys, tudou, nangua, ysche, wogg, wobg, ffm3u8, hhm3u8, lzm3u8, douban, wenku, baozimh, bengou_open, push, alist, _13bqg, copymanga];
+const spiders = [kunyu77, kkys, tudou, nangua, ysche, wogg, wobg, ffm3u8, hhm3u8, lzm3u8, douban, wenku, baozimh, laobaigs, bengou_open, push, alist, _13bqg, copymanga];
 const spiderPrefix = '/spider';
 
 /**
