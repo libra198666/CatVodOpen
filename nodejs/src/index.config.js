@@ -25,15 +25,18 @@ export default {
 	ali: {
     token: '97c2294a2bba4d0f9858d4b307caaf73',
     token280: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0MjhjZTEyMzFmZTI0NWY5YmNiYjBiMDM2YjA2YTNhOSIsImF1ZCI6IjczZTYxMTgzMWE3YzRkODdhYzQ5Yzg0ODFiZjlmMmM0IiwiZXhwIjoxNzE3MjE3NTUxLCJpYXQiOjE3MDk0NDE1NTEsImp0aSI6IjAwNWZmNmI1YTIyMDRiMjk5YzgyOTYxZjFkOTZiNjA5In0.nbxGcgTIV-hm5zoNNAwWqdPzlm1SWEUG8o28uEE9CtAezLhOUcKvurqGjPScpsIOx4GoCMF7OPsdDNJHJVX7TA',
-},
+  },
     wogg: {
          url: 'https://wogg.xyz',
-},
+  },
     tudou: {
           url: "https://aliz.lvdoui.top"
   },
     wobg: {
           url: "https://wobge.run.goorm.io"
+  },
+    nangua: {
+          url: 'http://ys.changmengyun.com',
   },
     alist: [
         {
