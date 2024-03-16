@@ -4,25 +4,44 @@ import push from './spider/video/push.js';
 import alist from './spider/pan/alist.js';
 import _13bqg from './spider/book/13bqg.js';
 import copymanga from './spider/book/copymanga.js';
-import ffm3u8 from './spider/video/ffm3u8.js';
-import hhm3u8 from './spider/video/hhm3u8.js';
-import lzm3u8 from './spider/video/lzm3u8.js';
+import vcm3u8 from './spider/video/vcm3u8.js';
+
+
 import douban from './spider/video/douban.js';
 import wogg from './spider/video/wogg.js';
 import tudou from './spider/video/tudou.js';
 import wobg from './spider/video/wobg.js';
 import nangua from './spider/video/nangua.js';
 import ysche from './spider/video/ysche.js';
+import xiaoya from './spider/video/xiaoya.js';
+import cntv from './spider/video/cntv.js';
+import xxpan from './spider/video/xxpan.js';
+import acfun from './spider/video/acfun.js';
+import mayiya from './spider/video/mayiya.js';
+import czzy from './spider/video/czzy.js';
+import subaibai from './spider/video/subaibai.js';
+import yingso from './spider/video/yingso.js';
+
+import ttkx from './spider/video/ttkx.js';
+import pansearch from './spider/video/pansearch.js';
+import bqr from './spider/video/bqr.js';
+import ikan from './spider/video/ikan.js';
+import libvio from './spider/video/libvio.js';
+import yiso from './spider/video/yiso.js';
+import yunpanres from './spider/video/yunpanres.js';
+
 
 import wenku from './spider/book/wenku.js';
-import baozimh from './spider/book/baozimh.js';
 import bengou_open from './spider/book/bengou_open.js';
 import laobaigs from './spider/book/laobaigs.js';
+import baozi from './spider/book/baozi.js';
+import coco from './spider/book/coco.js';
+import fengche from './spider/book/fengche.js';
 
 
 
 
-const spiders = [kunyu77, kkys, tudou, nangua, ysche, wogg, wobg, ffm3u8, hhm3u8, lzm3u8, douban, wenku, baozimh, laobaigs, bengou_open, push, alist, _13bqg, copymanga];
+const spiders = [kunyu77, kkys, tudou, czzy, nangua, subaibai, mayiya, douban, xiaoya, libvio, ikan, bqr, ysche, ttkx, yingso, yunpanres, pansearch, cntv, wogg, wobg, xxpan, yiso, acfun, vcm3u8, wenku, coco, baozi, fengche, laobaigs, bengou_open, push, alist, _13bqg, copymanga];
 const spiderPrefix = '/spider';
 
 /**

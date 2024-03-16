@@ -27,28 +27,12 @@ var index_config_default = {
       bbbb: "aaaaa"
     }
   },
-  ffm3u8: {
-    url: "https://cj.ffzyapi.com/api.php/provide/vod/from/ffm3u8/",
-    categories: ["国产剧", "香港剧", "韩国剧", "欧美剧", "台湾剧", "日本剧", "海外剧", "泰国剧", "短剧", "动作片", "喜剧片", "爱情片", "科幻片", "恐怖片", "剧情片", "战争片", "动漫片", "大陆综艺", "港台综艺", "日韩综艺", "欧美综艺", "国产动漫", "日韩动漫", "欧美动漫", "港台动漫", "海外动漫", "记录片"]
-  },
-  lzm3u8: {
-    url: "https://cj.lziapi.com/api.php/provide/vod/from/lzm3u8/",
-    categories: ["国产剧", "香港剧", "韩国剧", "欧美剧", "台湾剧", "日本剧", "海外剧", "泰国剧", "短剧", "动作片", "喜剧片", "爱情片", "科幻片", "恐怖片", "剧情片", "战争片", "动漫片", "大陆综艺", "港台综艺", "日韩综艺", "欧美综艺", "国产动漫", "日韩动漫", "欧美动漫", "港台动漫", "海外动漫", "记录片"]
-  },
-  hhm3u8: {
-    url: "https://hhzyapi.com/api.php/provide/vod/from/hhm3u8/",
-    categories: ["动作片", "爱情片", "喜剧片", "科幻片", "恐怖片", "剧情片", "战争片", "灾难片", "悬疑片", "犯罪片", "奇幻片", "短剧", "内地剧", "欧美剧", "香港剧", "韩剧", "日剧", "马泰剧", "中国动漫", "日本动漫", "欧美动漫", "欧美动漫", "大陆综艺", "港台综艺", "日韩综艺", "欧美综艺", "记录片"]
-  },
-  lzm3u8: {
-    url: "https://cj.lziapi.com/api.php/provide/vod/from/lzm3u8/",
-    categories: ["动作片", "爱情片", "喜剧片", "科幻片", "恐怖片", "剧情片", "战争片", "短剧", "国产剧", "欧美剧", "香港剧", "韩国剧", "日本剧", "台湾剧", "海外剧", "泰国剧", "国产动漫", "日韩动漫", "欧美动漫", "港台动漫", "海外动漫", "大陆综艺", "港台综艺", "日韩综艺", "欧美综艺", "记录片", "足球", "篮球", "网球", "斯诺克"]
-  },
   ali: {
     token: "97c2294a2bba4d0f9858d4b307caaf73",
     token280: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0MjhjZTEyMzFmZTI0NWY5YmNiYjBiMDM2YjA2YTNhOSIsImF1ZCI6IjczZTYxMTgzMWE3YzRkODdhYzQ5Yzg0ODFiZjlmMmM0IiwiZXhwIjoxNzE3MjE3NTUxLCJpYXQiOjE3MDk0NDE1NTEsImp0aSI6IjAwNWZmNmI1YTIyMDRiMjk5YzgyOTYxZjFkOTZiNjA5In0.nbxGcgTIV-hm5zoNNAwWqdPzlm1SWEUG8o28uEE9CtAezLhOUcKvurqGjPScpsIOx4GoCMF7OPsdDNJHJVX7TA"
   },
   quark: {
-    cookie: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1N"
+    cookie: "_UP_A4A_11_=wb9631f06c22494b865931672fdc2a18; _UP_D_=pc; _UP_F7E_8D_=70iWldVh0kGeLRK09BYAfEsem8D%2BGJzLUdRO7YsGUI%2BibipNZ4wWoKA3nkVDHeUjK77U6xYgqMbXDik4ZZxmO%2B6jibaMeh%2F15GPrrCl5M87ivs0EP%2FjAQTQimMgEdat62Byd22%2BZGM7p%2FtzK61uhhu2RQT5kYY2%2BvOTidzNw8s%2FWtKAIxWbnCzZn4%2FJMBUub1SIMcW89g55jcuKx9%2Fb0seibTwz2yJBwKLkUnuJeayw4R2pnjeekzRU4wR0Pq7NklczEGdRq2nIAcu7v22Uw2o%2FxMY0xBdeC9Korm5%2FNHnxl6K%2Bd6FXSoT9a3XIMQO359auZPiZWzrNlZe%2BqnOahXcx7KAhQIRqSOapSmL4ygJor4r5isJhRuDoXy7vJAVuH%2FRDtEJJ8rZTq0BdC23Bz%2B0MrsdgbK%2BiW; _UP_30C_6A_=st96362019c59m22qk8aixnxml5kg323; _UP_TS_=sg12aa4def34486367394d9aeaf916af749; _UP_E37_B7_=sg12aa4def34486367394d9aeaf916af749; _UP_TG_=st96362019c59m22qk8aixnxml5kg323; _UP_335_2B_=1; __pus=1a26346cefd1b564abe8a89823107127AASbKL5XW0MRcQl7ta3LoghKZ5uJo7E62uhE4fn3egpYicyEgzuOLUxLaXeZRhQ+LKmPjn1AXgx8M7z+x8kG53da; __kp=0261a810-de92-11ee-a6e6-8beee0dd29af; __kps=AARgS0lxFbB6GeWnuNT5Mxcg; __ktd=z7rVuM69pmRsJj8JBQi4Vw==; __uid=AARgS0lxFbB6GeWnuNT5Mxcg; tfstk=ebqHAO13tyuCHwxbBWnCjjCdWXbtRBiSi7K-w0hP7fl6JXn8U0-zw8nKz6w8sbV8FXrKpXHzZ5hs2XELJzvQjSxJv6_QU3m-4sCADieQp0iPMvyBLh2QrkkediIYdJzwT0DlD9a3sjSE5HAjQdZCKccDHD6_2PdgejyETJFLb6gBRRcM43rgS2cqqfxy4lDh4jLwuX2eVAW8jUTS8AMiM7__1pc_k1CVIOYYF2kshjBGIUiK8AM_BOXMu5gECvPC.; __puus=ef4d58ba8e68862541003e900705f5aaAASz/NK2Ndy4Pyxs6TZ84Rt0ErzsjZAIUCzfQAZJ5SqJuvQvFekMarbWh/v2tX/MAUz5vBGyqZtpefxx39M14RtI1Tcqi8zWT8rgkiNGWeiTbngKCCd6+PnntkyX4z43ahoBe/HA9eRQrs4kqqdpctgt9SrAsSNZrsFzQsglh9xfkMkI/H6c2cZSyrOVejrEXCvLLuMlLEFguGHIwYSBUon0"
   },
   wogg: {
     url: "https://wogg.xyz"
@@ -64,6 +48,84 @@ var index_config_default = {
   },
   ysche: {
     url: "https://www.weixine.link"
+  },
+  xxpan: {
+    url: "https://xpanpan.site"
+  },
+  xiaoya: {
+    url: "http://sy.sy123.site:4567/vod1/WA11vwI7/"
+  },
+  ttkx: {
+    url: "http://www.kxys.site:3328"
+  },
+  ikanbot: {
+    url: "https://www.aikanbot.com"
+  },
+  yiso: {
+    url: "https://yiso.fun",
+    cookie: "填入yiso网站的cookie即可"
+  },
+  libvio: {
+        url: "https://libvio.app"
+    },
+  czzy: {
+        url: 'https://cz01.vip'
+    },
+  vcm3u8: {
+    ffm3u8: [{
+      name: "非凡采集",
+      url: "https://cj.ffzyapi.com/api.php/provide/vod/from/ffm3u8/",
+      categories: ["国产剧", "香港剧", "韩国剧", "欧美剧", "台湾剧", "日本剧", "海外剧", "泰国剧", "短剧", "动作片", "喜剧片", "爱情片", "科幻片", "恐怖片", "剧情片", "战争片", "动漫片", "大陆综艺", "港台综艺", "日韩综艺", "欧美综艺", "国产动漫", "日韩动漫", "欧美动漫", "港台动漫", "海外动漫", "记录片"],
+      search: true
+    }],
+    hhm3u8: [{
+      name: "火狐采集",
+      url: "https://hhzyapi.com/api.php/provide/vod/from/hhm3u8/",
+      categories: ["动作片", "爱情片", "喜剧片", "科幻片", "恐怖片", "剧情片", "战争片", "灾难片", "悬疑片", "犯罪片", "奇幻片", "短剧", "内地剧", "欧美剧", "香港剧", "韩剧", "日剧", "马泰剧", "中国动漫", "日本动漫", "欧美动漫", "欧美动漫", "大陆综艺", "港台综艺", "日韩综艺", "欧美综艺", "记录片"],
+      search: true
+    }],
+    lzm3u8: [{
+      name: "量子采集",
+      url: "https://cj.lziapi.com/api.php/provide/vod/from/lzm3u8/",
+      categories: ["动作片", "爱情片", "喜剧片", "科幻片", "恐怖片", "剧情片", "战争片", "短剧", "国产剧", "欧美剧", "香港剧", "韩国剧", "日本剧", "台湾剧", "海外剧", "泰国剧", "国产动漫", "日韩动漫", "欧美动漫", "港台动漫", "海外动漫", "大陆综艺", "港台综艺", "日韩综艺", "欧美综艺", "记录片", "足球", "篮球", "网球", "斯诺克"],
+      search: true
+    }],
+    subm3u8: [{
+      name: "速播采集",
+      url: "https://subocaiji.com/api.php/provide/vod/from/subm3u8/",
+      categories: ["动作片", "爱情片", "喜剧片", "科幻片", "恐怖片", "剧情片", "战争片", "动漫电影", "短剧", "大陆剧", "美剧", "港澳剧", "韩剧", "日剧", "台湾剧", "泰剧", "中国动漫", "日本动漫", "欧美动漫", "综艺", "纪录片"],
+      search: true
+    }],
+    hnm3u8: [{
+      name: "红牛采集",
+      url: "https://www.hongniuzy2.com/api.php/provide/vod/from/hnm3u8/",
+      categories: ["动作片", "爱情片", "喜剧片", "科幻片", "恐怖片", "剧情片", "战争片", "动漫电影", "短剧", "国产剧", "欧美剧", "港澳剧", "韩剧", "日剧", "台湾剧", "泰剧", "动漫", "综艺", "纪录片", "体育赛事"],
+      search: true
+    }],
+    xlm3u8: [{
+      name: "新浪采集",
+      url: "https://api.xinlangapi.com/xinlangapi.php/provide/vod/from/xlm3u8/",
+      categories: ["动作片", "爱情片", "喜剧片", "科幻片", "恐怖片", "剧情片", "战争片", "动漫电影", "短剧", "大陆剧", "欧美剧", "港澳剧", "韩剧", "日剧", "台湾剧", "泰剧", "动漫", "综艺", "纪录片", "体育"],
+      search: true
+    }],
+    kuaikan: [{
+      name: "快看采集",
+      url: "https://kuaikan-api.com/api.php/provide/vod/from/kuaikan/",
+      categories: ["网络电影", "惊悚片", "犯罪片", "灾难片", "悬疑片", "爱情片", "喜剧片", "奇幻片", "恐怖片", "剧情片", "战争片", "动作片", "冒险片", "动画电影", "热门短剧", "国产剧", "欧美剧", "港台剧", "韩国剧", "日本剧", "台剧", "泰剧", "国产动漫", "日本动漫", "欧美动漫", "港台动漫", "韩国动漫", "国产综艺", "日本综艺", "港台综艺", "欧美综艺", "韩国综艺", "纪录片", "电影解说"],
+      search: true
+    }],
+    wjm3u8: [{
+      name: "无尽采集",
+      url: "https://api.wujinapi.me/api.php/provide/vod/from/wjm3u8/",
+      categories: ["动作片", "爱情片", "喜剧片", "科幻片", "恐怖片", "剧情片", "战争片", "悬疑片", "动画片", "犯罪片", "奇幻片", "邵氏电影", "短剧", "国产剧", "美国剧", "香港剧", "韩国剧", "日本剧", "台湾剧", "泰剧", "海外剧", "国产动漫", "日韩动漫", "欧美动漫", "大陆综艺", "日韩综艺", "港台综艺", "欧美综艺", "体育赛事", "影视解说"],
+      search: true
+    }],
+    clm3u8: [{
+      name: "CL社区",
+      url: "https://www.caoliuzyw.com/api.php/provide/vod/from/clm3u8/",
+      categories: ['国产传媒', '国产自拍', '女优合集', '中文字幕', '亚洲无码', '亚洲有码', '国产探花', '人妻熟女', '强奸乱伦', '网曝门事件', '绿帽淫妻', '欧美情色', '动漫卡通', '美女主播', '三级伦理', '人妻熟女', 'AV解说', '国产乱伦'],
+      search: true
+    }]
   },
   alist: [
     {
