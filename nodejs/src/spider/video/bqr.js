@@ -1,203 +1,95 @@
 import req from '../../util/req.js';
+import pkg from 'lodash';
+const { _ } = pkg;
 import { MAC_UA, formatPlayUrl } from '../../util/misc.js';
 import { load } from 'cheerio';
 import * as HLS from 'hls-parser';
 import * as Ali from '../../util/ali.js';
 import * as Quark from '../../util/quark.js';
+import { getDownload, getFilesByShareUrl, getLiveTranscoding, getShareData, initAli} from '../../util/ali.js';
 import dayjs from 'dayjs';
+import CryptoJS from 'crypto-js';
 
-let url = '';
+let siteUrl = 'https://news.bqrdh.com';
 
 async function request(reqUrl) {
-    const res = await req.get(reqUrl, {
+    const resp = await req.get(reqUrl, {
         headers: {
             'User-Agent': MAC_UA,
         },
     });
-    return res.data;
+    return resp.data;
 }
 
-// ali token 相关配置放在 index.config.js
-/*
-ali: {
-    token: 'xxxxxxxxxxxxxxxxxxxxxxxxx',
-    token280: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-},
-wogg: {
-    url: 'https://wogg.xyz',
-},
-*/
+
 async function init(inReq, _outResp) {
-    url = inReq.server.config.wogg.url;
     await Ali.initAli(inReq.server.db, inReq.server.config.ali);
     await Quark.initQuark(inReq.server.db, inReq.server.config.quark);
     return {};
 }
 
-async function home(_inReq, _outResp) {
-    const html = await request(`${url}/index.php/vodshow/1-----------.html`);
-    const $ = load(html);
+
+async function home(filter) {
+    const classes = [{'type_id':'1','type_name':'电影'},{'type_id':'6','type_name':'电视'},{'type_id':'11','type_name':'动漫'},{'type_id':'15','type_name':'视频'},{'type_id':'20','type_name':'音乐'}];
+    const filterObj = {
+        '1':[{'key':'cateId','name':'分类','init':'2','value':[{'n':'华语','v':'2'},{'n':'日韩','v':'3'},{'n':'欧美','v':'4'},{'n':'其他','v':'5'}]},{'key':'order','name':'排序','init':'newest','value':[{'n':'最新','v':'newest'},{'n':'最热','v':'popular'}]}],
+        '6':[{'key':'cateId','name':'分类','init':'7','value':[{'n':'华语','v':'7'},{'n':'日韩','v':'8'},{'n':'欧美','v':'9'},{'n':'其他','v':'10'}]},{'key':'order','name':'排序','init':'newest','value':[{'n':'最新','v':'newest'},{'n':'最热','v':'popular'}]}],
+        '11':[{'key':'cateId','name':'分类','init':'12','value':[{'n':'国漫','v':'12'},{'n':'日本','v':'13'},{'n':'欧美','v':'14'}]},{'key':'order','name':'排序','init':'newest','value':[{'n':'最新','v':'newest'},{'n':'最热','v':'popular'}]}],
+        '15':[{'key':'cateId','name':'分类','init':'16','value':[{'n':'纪录','v':'16'},{'n':'综艺','v':'17'},{'n':'教育','v':'18'},{'n':'其他','v':'19'}]},{'key':'order','name':'排序','init':'newest','value':[{'n':'最新','v':'newest'},{'n':'最热','v':'popular'}]}],
+        '20':[{'key':'cateId','name':'分类','init':'21','value':[{'n':'华语','v':'21'},{'n':'日韩','v':'22'},{'n':'欧美','v':'23'},{'n':'其他','v':'24'}]},{'key':'order','name':'排序','init':'newest','value':[{'n':'最新','v':'newest'},{'n':'最热','v':'popular'}]}],
+  };
     return {
-        class: $('div.library-box-first a[href*=/vodshow/]')
-            .map((_, a) => {
-                return {
-                    type_id: a.attribs.href.match(/vodshow\/(\d+)-----------.html/)[1],
-                    type_name: a.attribs.title.replace(/片库|玩偶/g, ''),
-                };
-            })
-            .get(),
+        class: classes,
+        filters: filterObj,
     };
 }
 
-function fixImgUrl(imgUrl) {
-    if (imgUrl.startsWith('/img.php?url=')) {
-        return imgUrl.substr(13);
-    }
-    return imgUrl;
-}
-
-function getHrefInfoIdx(data) {
-    const hrefs = Array.isArray(data) ? data : data.split('-');
-    for (let j = 1; j < hrefs.length; j++) {
-        if (hrefs[j] != '') {
-            return j;
-        }
-    }
-    return -1;
-}
 
 async function category(inReq, _outResp) {
     const tid = inReq.body.id;
-    const pg = inReq.body.page;
+    let pg = inReq.body.page;
     const extend = inReq.body.filters;
-    let page = pg || 1;
-    if (page == 0) page = 1;
-    if (tid.startsWith('s-')) {
-        const href = ['', '', '', '', '', '', '', '', '', '', page, '', '', ''];
-        const tids = tid.split('-');
-        href[parseInt(tids[1])] = tids[2];
-        const html = await request(`${url}/index.php/vodsearch/${href.join('-')}.html`);
-        const $ = load(html);
-        const videos = $('div.module-items > div.module-search-item')
-            .map((_, div) => {
-                const t = $(div).find('div.video-info-header h3 a')[0];
-                return {
-                    vod_id: t.attribs.href.match(/voddetail\/(.*).html/)[1],
-                    vod_name: t.attribs.title,
-                    vod_pic: fixImgUrl($(div).find('div.module-item-pic img')[0].attribs['data-src']),
-                    vod_remarks: $(div).find('a.video-serial').text(),
-                };
-            })
-            .get();
+    if (pg <= 0) pg = 1;
+    const limit = 25;
+    const url = siteUrl + '/api/busi/res/list?typeId=' + (extend.cateId || tid) + '&source=ALI_WP&q=&statuses=PUBLISH&statuses=INVALID&orderBy2=' + (extend.order || '') + '&pageSize=' + limit + '&pageNum=' + pg + '&total=0&_t=' + new Date().getTime();
+    const resp = await request(url);
+    return parseVodList(resp);
+}
+
+function parseVodList(resp) {
+    const rspData = resp;
+    const jsonData = base64Decode(rspData.payload.substring(9));
+    const json = JSON.parse(jsonData);
+    const videos = _.map(json.payload, (item) => {
         return {
-            page: page,
-            pagecount: videos.length < 10 ? page : page + 1,
-            list: videos,
+            vod_id: item.fullSourceUrl,
+            vod_name: item.title,
+            vod_pic: 'https://inews.gtimg.com/newsapp_bt/0/13263837859/1000',
+            vod_remarks: dayjs(item.modifyTime).format('YY/MM/DD hh:mm'),
         };
-    } else {
-        const filters = [];
-        let $ = null;
-        if (page == 1 && Object.keys(extend).length == 0) {
-            const html = await request(`${url}/index.php/vodshow/${tid}-----------.html`);
-            $ = load(html);
-            $('a.library-item-first').map((_, fa) => {
-                const fva = $(fa.parent).find('div.library-list > a.library-item');
-                if (fva.length > 0) {
-                    const fvs = [];
-                    let fkey = 0;
-                    fva.each((i, va) => {
-                        const href = va.attribs.href.match(/vodshow\/(.*).html/)[1];
-                        const hrefs = href.split('-');
-                        if (i == 0) {
-                            fkey = getHrefInfoIdx(hrefs);
-                            if (fkey != 2)
-                                fvs.push({
-                                    n: '全部',
-                                    v: '',
-                                });
-                        }
-                        fvs.push({
-                            n: va.attribs.title.replace(/按|排序/g, ''),
-                            v: decodeURIComponent(hrefs[fkey].toString()),
-                        });
-                    });
-                    filters.push({
-                        key: fkey.toString(),
-                        name: '',
-                        init: fvs[0].v,
-                        value: fvs,
-                    });
-                }
-            });
-        }
-        if ($ === null) {
-            const href = [tid, '', '', '', '', '', '', '', page, '', '', ''];
-            Object.keys(extend).forEach((e) => {
-                href[parseInt(e)] = extend[e];
-            });
-            const html = await request(`${url}/index.php/vodshow/${href.join('-')}.html`);
-            $ = load(html);
-        }
-        const videos = $('div.module-items > div.module-item')
-            .map((_, div) => {
-                const t = $(div).find('div.video-name a')[0];
-                return {
-                    vod_id: t.attribs.href.match(/voddetail\/(.*).html/)[1],
-                    vod_name: t.attribs.title,
-                    vod_pic: fixImgUrl($(div).find('div.module-item-pic img')[0].attribs['data-src']),
-                    vod_remarks: $(div).find('div.module-item-text').text(),
-                };
-            })
-            .get();
-        const result = {
-            page: page,
-            pagecount: videos.length < 70 ? page : page + 1,
-            list: videos,
-        };
-        if (filters.length > 0) {
-            result.filter = filters;
-        }
-        return result;
-    }
+    });
+    return {
+        page: json.pageNum,
+        pagecount: json.pages,
+        limit: json.pageSize,
+        total: json.total,
+        list: videos,
+    };
+}
+
+function base64Decode(text) {
+    return CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(text));
 }
 
 async function detail(inReq, _outResp) {
-    const ids = !Array.isArray(inReq.body.id) ? [inReq.body.id] : inReq.body.id;
+    const shareUrl = inReq.body.id;
     const videos = [];
-    for (const id of ids) {
-        const html = await request(`${url}/index.php/voddetail/${id}.html`);
-        const $ = load(html);
-        const director = [];
-        const actor = [];
-        let year = '';
-        $('div.video-info-items a[href*=/vodsearch/]').each((_, a) => {
-            const hrefs = a.attribs.href.match(/vodsearch\/(.*).html/)[1].split('-');
-            const name = $(a).text().trim();
-            const idx = getHrefInfoIdx(hrefs);
-            if (idx === 5) {
-                const c = { id: 's-5-' + decodeURIComponent(hrefs[5].toString()), name: name };
-                director.push(`[a=cr:${JSON.stringify(c)}/]${name}[/a]`);
-            } else if (idx === 1) {
-                const c = { id: 's-1-' + decodeURIComponent(hrefs[1].toString()), name: name };
-                actor.push(`[a=cr:${JSON.stringify(c)}/]${name}[/a]`);
-            } else if (idx === 13) {
-                year = name;
-            }
+        let vod = ({
+            vod_id: shareUrl,
         });
-        let vod = {
-            vod_year: year,
-            vod_actor: actor.join(', '),
-            vod_director: director.join(', '),
-            vod_content: $('div.video-info-content p[style*=none]')[0].children[0].data.trim(),
-        };
-
-        const shareUrls = $('div.module-row-info p')
-            .map((_, p) => p.children[0].data)
-            .get();
         const froms = [];
         const urls = [];
-        for (const shareUrl of shareUrls) {
-            const shareData = Ali.getShareData(shareUrl);
+                const shareData = Ali.getShareData(shareUrl);
             if (shareData) {
                 const videos = await Ali.getFilesByShareUrl(shareData);
                 if (videos.length > 0) {
@@ -228,15 +120,16 @@ async function detail(inReq, _outResp) {
                     }
                 }
             }
-        }
         vod.vod_play_from = froms.join('$$$');
         vod.vod_play_url = urls.join('$$$');
         videos.push(vod);
-    }
     return {
         list: videos,
     };
 }
+
+
+
 
 const aliTranscodingCache = {};
 const aliDownloadingCache = {};
@@ -418,29 +311,16 @@ async function play(inReq, _outResp) {
 }
 
 
+
+
 async function search(inReq, _outResp) {
-    const pg = inReq.body.page;
     const wd = inReq.body.wd;
-    let page = pg || 1;
-    if (page == 0) page = 1;
-    const html = await request(`${url}/index.php/vodsearch/-------------.html?wd=${wd}`);
-    const $ = load(html);
-    const videos = $('div.module-items > div.module-search-item')
-        .map((_, div) => {
-            const t = $(div).find('div.video-info-header h3 a')[0];
-            return {
-                vod_id: t.attribs.href.match(/voddetail\/(.*).html/)[1],
-                vod_name: t.attribs.title,
-                vod_pic: fixImgUrl($(div).find('div.module-item-pic img')[0].attribs['data-src']),
-                vod_remarks: $(div).find('a.video-serial').text(),
-            };
-        })
-        .get();
-    return {
-        page: page,
-        pagecount: videos.length < 10 ? page : page + 1,
-        list: videos,
-    };
+    let pg = inReq.body.page;
+    if (pg <= 0) pg = 1;
+    const limit = 25;
+    const url = siteUrl + '/api/busi/res/list?source=&q=' + encodeURIComponent(wd) + '&statuses=PUBLISH&statuses=INVALID&orderBy2=newest&pageSize=' + limit + '&pageNum=' + pg + '&total=0&_t=' + new Date().getTime();
+    const resp = await request(url);
+    return parseVodList(resp);
 }
 
 
@@ -460,7 +340,7 @@ async function test(inReq, outResp) {
         resp = await inReq.server.inject().post(`${prefix}/home`);
         dataResult.home = resp.json();
         printErr(resp.json());
-        if (dataResult.home.class.length > 0) {
+        if (dataResult.home.class && dataResult.home.class.length > 0) {
             resp = await inReq.server.inject().post(`${prefix}/category`).payload({
                 id: dataResult.home.class[0].type_id,
                 page: 1,
@@ -469,7 +349,7 @@ async function test(inReq, outResp) {
             });
             dataResult.category = resp.json();
             printErr(resp.json());
-            if (dataResult.category.list.length > 0) {
+            if (dataResult.category.list &&dataResult.category.list.length > 0) {
                 resp = await inReq.server.inject().post(`${prefix}/detail`).payload({
                     id: dataResult.category.list[0].vod_id, // dataResult.category.list.map((v) => v.vod_id),
                 });
@@ -514,11 +394,11 @@ async function test(inReq, outResp) {
 
 export default {
     meta: {
-        key: 'wogg',
-        name: '玩偶哥哥',
+        key: 'bqr',
+        name: '不求人搜',
         type: 3,
     },
-    api: async (fastify) => {
+   api: async (fastify) => {
         fastify.post('/init', init);
         fastify.post('/home', home);
         fastify.post('/category', category);

@@ -5,194 +5,100 @@ import * as HLS from 'hls-parser';
 import * as Ali from '../../util/ali.js';
 import * as Quark from '../../util/quark.js';
 import dayjs from 'dayjs';
+import pkg from 'lodash';
+const { _ } = pkg;
 
-let url = '';
+let url = 'https://xpanpan.site';
 
 async function request(reqUrl) {
-    const res = await req.get(reqUrl, {
+    const resp = await req.get(reqUrl, {
         headers: {
             'User-Agent': MAC_UA,
         },
     });
-    return res.data;
+    return resp.data;
 }
 
-// ali token 相关配置放在 index.config.js
+// 配置放在 index.config.js
 /*
 ali: {
     token: 'xxxxxxxxxxxxxxxxxxxxxxxxx',
     token280: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
 },
-wogg: {
-    url: 'https://wogg.xyz',
+quark: {
+    cookie: 'xxxx'
 },
 */
 async function init(inReq, _outResp) {
-    url = inReq.server.config.wogg.url;
     await Ali.initAli(inReq.server.db, inReq.server.config.ali);
     await Quark.initQuark(inReq.server.db, inReq.server.config.quark);
     return {};
 }
 
-async function home(_inReq, _outResp) {
-    const html = await request(`${url}/index.php/vodshow/1-----------.html`);
-    const $ = load(html);
+async function home(inReq, _outResp) {
+    const classes = [{'type_id':'ali-yun-pan-list','type_name':'阿里云盘'},{'type_id':'kua-ke-wang-pan-list','type_name':'夸克云盘'},{'type_id':'video-tv-list','type_name':'影视资源'},{'type_id':'cartoon-list','type_name':'动漫资源'}];
+    const filterObj = {};
     return {
-        class: $('div.library-box-first a[href*=/vodshow/]')
-            .map((_, a) => {
-                return {
-                    type_id: a.attribs.href.match(/vodshow\/(\d+)-----------.html/)[1],
-                    type_name: a.attribs.title.replace(/片库|玩偶/g, ''),
-                };
-            })
-            .get(),
+        class: classes,
+        filters: filterObj,
     };
 }
 
-function fixImgUrl(imgUrl) {
-    if (imgUrl.startsWith('/img.php?url=')) {
-        return imgUrl.substr(13);
-    }
-    return imgUrl;
-}
-
-function getHrefInfoIdx(data) {
-    const hrefs = Array.isArray(data) ? data : data.split('-');
-    for (let j = 1; j < hrefs.length; j++) {
-        if (hrefs[j] != '') {
-            return j;
-        }
-    }
-    return -1;
-}
-
 async function category(inReq, _outResp) {
+    let pg = inReq.body.page;
     const tid = inReq.body.id;
-    const pg = inReq.body.page;
-    const extend = inReq.body.filters;
-    let page = pg || 1;
-    if (page == 0) page = 1;
-    if (tid.startsWith('s-')) {
-        const href = ['', '', '', '', '', '', '', '', '', '', page, '', '', ''];
-        const tids = tid.split('-');
-        href[parseInt(tids[1])] = tids[2];
-        const html = await request(`${url}/index.php/vodsearch/${href.join('-')}.html`);
-        const $ = load(html);
-        const videos = $('div.module-items > div.module-search-item')
-            .map((_, div) => {
-                const t = $(div).find('div.video-info-header h3 a')[0];
-                return {
-                    vod_id: t.attribs.href.match(/voddetail\/(.*).html/)[1],
-                    vod_name: t.attribs.title,
-                    vod_pic: fixImgUrl($(div).find('div.module-item-pic img')[0].attribs['data-src']),
-                    vod_remarks: $(div).find('a.video-serial').text(),
-                };
-            })
-            .get();
-        return {
-            page: page,
-            pagecount: videos.length < 10 ? page : page + 1,
-            list: videos,
-        };
-    } else {
-        const filters = [];
-        let $ = null;
-        if (page == 1 && Object.keys(extend).length == 0) {
-            const html = await request(`${url}/index.php/vodshow/${tid}-----------.html`);
-            $ = load(html);
-            $('a.library-item-first').map((_, fa) => {
-                const fva = $(fa.parent).find('div.library-list > a.library-item');
-                if (fva.length > 0) {
-                    const fvs = [];
-                    let fkey = 0;
-                    fva.each((i, va) => {
-                        const href = va.attribs.href.match(/vodshow\/(.*).html/)[1];
-                        const hrefs = href.split('-');
-                        if (i == 0) {
-                            fkey = getHrefInfoIdx(hrefs);
-                            if (fkey != 2)
-                                fvs.push({
-                                    n: '全部',
-                                    v: '',
-                                });
-                        }
-                        fvs.push({
-                            n: va.attribs.title.replace(/按|排序/g, ''),
-                            v: decodeURIComponent(hrefs[fkey].toString()),
-                        });
-                    });
-                    filters.push({
-                        key: fkey.toString(),
-                        name: '',
-                        init: fvs[0].v,
-                        value: fvs,
-                    });
-                }
-            });
-        }
-        if ($ === null) {
-            const href = [tid, '', '', '', '', '', '', '', page, '', '', ''];
-            Object.keys(extend).forEach((e) => {
-                href[parseInt(e)] = extend[e];
-            });
-            const html = await request(`${url}/index.php/vodshow/${href.join('-')}.html`);
-            $ = load(html);
-        }
-        const videos = $('div.module-items > div.module-item')
-            .map((_, div) => {
-                const t = $(div).find('div.video-name a')[0];
-                return {
-                    vod_id: t.attribs.href.match(/voddetail\/(.*).html/)[1],
-                    vod_name: t.attribs.title,
-                    vod_pic: fixImgUrl($(div).find('div.module-item-pic img')[0].attribs['data-src']),
-                    vod_remarks: $(div).find('div.module-item-text').text(),
-                };
-            })
-            .get();
-        const result = {
-            page: page,
-            pagecount: videos.length < 70 ? page : page + 1,
-            list: videos,
-        };
-        if (filters.length > 0) {
-            result.filter = filters;
-        }
-        return result;
+    if (pg <= 0) pg = 1;
+    let page = '';
+    if (pg > 1) {
+        page = '/page/' + pg;
     }
+    const html = await request(url + '/category/' + tid +page + '/');
+    return parseHtmlList(html, pg);
 }
+
+function parseHtmlList(html, pg) {
+    const $ = load(html);
+    const list = $('.bloglo-flex-row .col-md-12 .bloglo-entry-content-wrapper');
+    let videos = [];
+    for(var item of list) {
+        let pic ='https://i2.100024.xyz/2024/03/15/o4d8hp.webp';
+        const $item = $(item);
+        const catQuark = $item.find('.cat-links:contains(夸克网盘)');
+        const title = $item.find('.entry-header h4 a');
+        if (_.isEmpty(catQuark))
+        pic = 'https://inews.gtimg.com/newsapp_bt/0/13263837859/1000';
+        videos.push({
+            vod_id: title.attr('href'),
+            vod_name: title.attr('title'),
+            vod_pic: pic,
+            vod_remarks: '',
+        });
+    }
+    const pgCount = $('.nav-links .next').length > 0 ? pg + 1 : pg;
+    const limit = 10;
+    return {
+        page: pg,
+        pagecount: pgCount,
+        limit: limit,
+        total: limit * pgCount,
+        list: videos,
+    };
+}
+
 
 async function detail(inReq, _outResp) {
     const ids = !Array.isArray(inReq.body.id) ? [inReq.body.id] : inReq.body.id;
     const videos = [];
     for (const id of ids) {
-        const html = await request(`${url}/index.php/voddetail/${id}.html`);
+        const html = await request(id);
         const $ = load(html);
-        const director = [];
-        const actor = [];
-        let year = '';
-        $('div.video-info-items a[href*=/vodsearch/]').each((_, a) => {
-            const hrefs = a.attribs.href.match(/vodsearch\/(.*).html/)[1].split('-');
-            const name = $(a).text().trim();
-            const idx = getHrefInfoIdx(hrefs);
-            if (idx === 5) {
-                const c = { id: 's-5-' + decodeURIComponent(hrefs[5].toString()), name: name };
-                director.push(`[a=cr:${JSON.stringify(c)}/]${name}[/a]`);
-            } else if (idx === 1) {
-                const c = { id: 's-1-' + decodeURIComponent(hrefs[1].toString()), name: name };
-                actor.push(`[a=cr:${JSON.stringify(c)}/]${name}[/a]`);
-            } else if (idx === 13) {
-                year = name;
-            }
-        });
         let vod = {
-            vod_year: year,
-            vod_actor: actor.join(', '),
-            vod_director: director.join(', '),
-            vod_content: $('div.video-info-content p[style*=none]')[0].children[0].data.trim(),
+            vod_id: id,
+            vod_name: $($('.entry-content h6')).text(),
+            vod_pic: 'https://inews.gtimg.com/newsapp_bt/0/13263837859/1000',
         };
-
-        const shareUrls = $('div.module-row-info p')
-            .map((_, p) => p.children[0].data)
+        const shareUrls = $('div.entry-content ul li a')
+            .map((_, a) => a.children[0].data)
             .get();
         const froms = [];
         const urls = [];
@@ -417,33 +323,17 @@ async function play(inReq, _outResp) {
     }
 }
 
-
 async function search(inReq, _outResp) {
-    const pg = inReq.body.page;
+    let pg = inReq.body.page;
     const wd = inReq.body.wd;
-    let page = pg || 1;
-    if (page == 0) page = 1;
-    const html = await request(`${url}/index.php/vodsearch/-------------.html?wd=${wd}`);
-    const $ = load(html);
-    const videos = $('div.module-items > div.module-search-item')
-        .map((_, div) => {
-            const t = $(div).find('div.video-info-header h3 a')[0];
-            return {
-                vod_id: t.attribs.href.match(/voddetail\/(.*).html/)[1],
-                vod_name: t.attribs.title,
-                vod_pic: fixImgUrl($(div).find('div.module-item-pic img')[0].attribs['data-src']),
-                vod_remarks: $(div).find('a.video-serial').text(),
-            };
-        })
-        .get();
-    return {
-        page: page,
-        pagecount: videos.length < 10 ? page : page + 1,
-        list: videos,
-    };
+    if (pg <= 0) pg = 1;
+    let page = '';
+    if (pg > 1) {
+        page = '/page/' + pg;
+    }
+    const html = await request(url + page + "/?s=" + encodeURIComponent(wd));
+    return parseHtmlList(html, pg);
 }
-
-
 
 async function test(inReq, outResp) {
     try {
@@ -514,8 +404,8 @@ async function test(inReq, outResp) {
 
 export default {
     meta: {
-        key: 'wogg',
-        name: '玩偶哥哥',
+        key: 'xxpan',
+        name: '小盘盘盘',
         type: 3,
     },
     api: async (fastify) => {
