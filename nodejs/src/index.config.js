@@ -27,13 +27,7 @@ var index_config_default = {
       bbbb: "aaaaa"
     }
   },
-  ali: {
-    token: "97c2294a2bba4d0f9858d4b307caaf73",
-    token280: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0MjhjZTEyMzFmZTI0NWY5YmNiYjBiMDM2YjA2YTNhOSIsImF1ZCI6IjczZTYxMTgzMWE3YzRkODdhYzQ5Yzg0ODFiZjlmMmM0IiwiZXhwIjoxNzE3MjE3NTUxLCJpYXQiOjE3MDk0NDE1NTEsImp0aSI6IjAwNWZmNmI1YTIyMDRiMjk5YzgyOTYxZjFkOTZiNjA5In0.nbxGcgTIV-hm5zoNNAwWqdPzlm1SWEUG8o28uEE9CtAezLhOUcKvurqGjPScpsIOx4GoCMF7OPsdDNJHJVX7TA"
-  },
-  quark: {
-    cookie: "_UP_A4A_11_=wb9631f06c22494b865931672fdc2a18; _UP_D_=pc; _UP_F7E_8D_=70iWldVh0kGeLRK09BYAfEsem8D%2BGJzLUdRO7YsGUI%2BibipNZ4wWoKA3nkVDHeUjK77U6xYgqMbXDik4ZZxmO%2B6jibaMeh%2F15GPrrCl5M87ivs0EP%2FjAQTQimMgEdat62Byd22%2BZGM7p%2FtzK61uhhu2RQT5kYY2%2BvOTidzNw8s%2FWtKAIxWbnCzZn4%2FJMBUub1SIMcW89g55jcuKx9%2Fb0seibTwz2yJBwKLkUnuJeayw4R2pnjeekzRU4wR0Pq7NklczEGdRq2nIAcu7v22Uw2o%2FxMY0xBdeC9Korm5%2FNHnxl6K%2Bd6FXSoT9a3XIMQO359auZPiZWzrNlZe%2BqnOahXcx7KAhQIRqSOapSmL4ygJor4r5isJhRuDoXy7vJAVuH%2FRDtEJJ8rZTq0BdC23Bz%2B0MrsdgbK%2BiW; _UP_30C_6A_=st96362019c59m22qk8aixnxml5kg323; _UP_TS_=sg12aa4def34486367394d9aeaf916af749; _UP_E37_B7_=sg12aa4def34486367394d9aeaf916af749; _UP_TG_=st96362019c59m22qk8aixnxml5kg323; _UP_335_2B_=1; __pus=1a26346cefd1b564abe8a89823107127AASbKL5XW0MRcQl7ta3LoghKZ5uJo7E62uhE4fn3egpYicyEgzuOLUxLaXeZRhQ+LKmPjn1AXgx8M7z+x8kG53da; __kp=0261a810-de92-11ee-a6e6-8beee0dd29af; __kps=AARgS0lxFbB6GeWnuNT5Mxcg; __ktd=z7rVuM69pmRsJj8JBQi4Vw==; __uid=AARgS0lxFbB6GeWnuNT5Mxcg; tfstk=ebqHAO13tyuCHwxbBWnCjjCdWXbtRBiSi7K-w0hP7fl6JXn8U0-zw8nKz6w8sbV8FXrKpXHzZ5hs2XELJzvQjSxJv6_QU3m-4sCADieQp0iPMvyBLh2QrkkediIYdJzwT0DlD9a3sjSE5HAjQdZCKccDHD6_2PdgejyETJFLb6gBRRcM43rgS2cqqfxy4lDh4jLwuX2eVAW8jUTS8AMiM7__1pc_k1CVIOYYF2kshjBGIUiK8AM_BOXMu5gECvPC.; __puus=ef4d58ba8e68862541003e900705f5aaAASz/NK2Ndy4Pyxs6TZ84Rt0ErzsjZAIUCzfQAZJ5SqJuvQvFekMarbWh/v2tX/MAUz5vBGyqZtpefxx39M14RtI1Tcqi8zWT8rgkiNGWeiTbngKCCd6+PnntkyX4z43ahoBe/HA9eRQrs4kqqdpctgt9SrAsSNZrsFzQsglh9xfkMkI/H6c2cZSyrOVejrEXCvLLuMlLEFguGHIwYSBUon0"
-  },
+  
   wogg: {
     url: "https://wogg.xyz"
   },
@@ -53,7 +47,7 @@ var index_config_default = {
     url: "https://xpanpan.site"
   },
   xiaoya: {
-    url: "http://sy.sy123.site:4567/vod1/WA11vwI7/"
+    url: ""
   },
   ttkx: {
     url: "http://www.kxys.site:3328"
